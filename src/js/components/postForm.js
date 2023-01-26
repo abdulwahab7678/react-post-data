@@ -1,29 +1,44 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const PostForm = (props) => {
-const [file, setFile] = useState("")
-const [des, setDis] = useState("")
+export default function PostForm({addPost}){
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
+    const [filePath, setfilePath] = useState(null)
+    const fileField = useRef()
+
+
+
+
 const handleSubmit = (e)=>{
     e.preventDefault()
-    props.PostAdd({file, des})
+    addPost({title, description, image: filePath})
+    setTitle(''),
+    setDescription(''),
+    setfilePath(null)
 }
 
+const handleUpload =(event)=>{
+    setfilePath(URL.createObjectURL(fileField.current.files[0]))
+}
 
-
-
-    return (
+    return(
         <form onSubmit={handleSubmit}>
-            <div className="">
-                <label>add file</label> <br />
-                <input type="file" value={file} onChange={(e)=> setFile(e.target.value)} name="file upload" placeholder="file upload" required></input>
+            <div className="title_parent">
+                <label>title</label><br/>
+                <input type='text' name="title" value={title} onChange={(e)=> setTitle(e.target.value)}/>
             </div>
-            <div className="">
-                <label>add discription</label> <br />
-                <input type="text" value={des} onChange={(e)=> setDis(e.target.value)} name="description" placeholder="description" required></input>
+            <div className="description_parent">
+                <label>description</label><br/>
+                <textarea type='text' name="description" value={description} onChange={(e)=> setDescription(e.target.value)}/>
             </div>
-            <button type="submit">add post</button>
+            <div className="image_parent">
+                <label>file</label><br/>
+                <input type='file' name="image" ref={fileField} onChange={(e)=> handleUpload(e)}/>
+            </div>
+            {filePath &&(
+                <img src={filePath} alt="image"/>
+            )}
+            <div> <input type='submit'/></div>
         </form>
     )
 }
-
-export default PostForm

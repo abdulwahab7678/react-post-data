@@ -1,9 +1,10 @@
-import {createRoot} from 'react-dom/client'
-import "bootstrap/dist/css/bootstrap.css"
-import "bootstrap/dist/js/bootstrap.js"
+import 'bootstrap/dist/css/bootstrap-grid.css'
+import { createRoot } from 'react-dom/client'
 
-import App from './app'
+import App from "./App"
 
-const container = document.querySelector("#root")
+const container = document.getElementById("root")
 const root = createRoot(container)
-root.render(<App/>)
+root.render(<App />)
+
+
